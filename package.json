@@ -1,0 +1,23 @@
+{
+  "name": "react-native-loading-dots",
+  "version": "1.0.0",
+  "description": "A React Native loading component with dots and smooth animation",
+  "repository": "https://github.com/alexvcasillas/react-native-loading-dots",
+  "author": "Alex Casillas",
+  "license": "MIT",
+  "source": "src/react-native-loading-dots.js",
+  "main": "dist/react-native-loading-dots.js",
+  "module": "dist/react-native-loading-dots.mjs",
+  "unpkg": "dist/react-native-loading-dots.umd.js",
+  "scripts": {
+    "build": "microbundle --jsx react",
+    "dev": "microbundle watch --jsx react"
+  },
+  "dependencies": {
+    "microbundle": "^0.11.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6",
+    "react-native": "^0.59.9"
+  }
+}
