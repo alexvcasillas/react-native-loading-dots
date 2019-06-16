@@ -4,6 +4,16 @@ Smooth dot loading component for your React Native project.
 
 ![Showcase of React Native Loading Dots](https://github.com/alexvcasillas/react-native-loading-dots/blob/master/ios-demo.gif?raw=true)
 
+## Installation
+
+```
+npm i react-native-loading-dots
+```
+
+```
+yarn add react-native-loading-dots
+```
+
 ## Usage
 
 ```js

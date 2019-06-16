@@ -1,6 +1,6 @@
 {
   "name": "react-native-loading-dots",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A React Native loading component with dots and smooth animation",
   "repository": "https://github.com/alexvcasillas/react-native-loading-dots",
   "author": "Alex Casillas",
