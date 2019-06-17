@@ -8,7 +8,7 @@ const defaultColors = [
   "#69db7c"
 ];
 
-function LoadingDots({ dots = 4, colors = defaultColors }) {
+function LoadingDots({ dots = 4, colors = defaultColors, size = 20 }) {
   const [animations, setAnimations] = useState([]);
   const [reverse, setReverse] = useState(false);
 
@@ -80,7 +80,7 @@ function LoadingDots({ dots = 4, colors = defaultColors }) {
           // eslint-disable-next-line react/no-array-index-key
           key={`loading-anim-${index}`}
           style={[
-            styles.dot,
+            { width: size, height: size, borderRadius: size / 10 },
             { backgroundColor: colors[index] || "#4dabf7" },
             { transform: [{ translateY: animation }] }
           ]}
@@ -96,11 +96,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"
-  },
-  dot: {
-    width: 20,
-    height: 20,
-    borderRadius: 10
   }
 });
 

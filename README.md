@@ -67,3 +67,12 @@ default ["#4dabf7", "#3bc9db", "#38d9a9", "#69db7c"]
 ```
 
 This prop will change the color of the dots in the given array order. If you declare the array but the length doesn't match with the amount of dots defined, the dot that cannot take a color from this array will instead use a fallback color of `"#4dabf7"`.
+
+### size
+
+```js
+@type {Number}
+default 20
+```
+
+This prop will control the size of each dot that will be displayed for the animation.
