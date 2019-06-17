@@ -76,3 +76,12 @@ default 20
 ```
 
 This prop will control the size of each dot that will be displayed for the animation.
+
+
+### borderRadius
+
+```
+@type {Number}
+```
+
+This prop will control the border radius of the dots in case you want a specific amount of border radius. If you don't fill this prop it will use a rounded border radius with the formula: `size / 2`.
