@@ -8,7 +8,7 @@ const defaultColors = [
   "#69db7c"
 ];
 
-function LoadingDots({ dots = 4, colors = defaultColors, size = 20, borderRadius }) {
+function LoadingDots({ dots = 4, colors = defaultColors, size = 20, bounceHeight = 20, borderRadius }) {
   const [animations, setAnimations] = useState([]);
   const [reverse, setReverse] = useState(false);
 
@@ -40,13 +40,13 @@ function LoadingDots({ dots = 4, colors = defaultColors, size = 20, borderRadius
   function floatAnimation(node, reverseY, delay) {
     const floatSequence = Animated.sequence([
       Animated.timing(node, {
-        toValue: reverseY ? 20 : -20,
+        toValue: reverseY ? bounceHeight : -bounceHeight,
         easing: Easing.bezier(0.41, -0.15, 0.56, 1.21),
         delay,
         useNativeDriver: true
       }),
       Animated.timing(node, {
-        toValue: reverseY ? -20 : 20,
+        toValue: reverseY ? -bounceHeight : bounceHeight,
         easing: Easing.bezier(0.41, -0.15, 0.56, 1.21),
         delay,
         useNativeDriver: true
