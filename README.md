@@ -85,3 +85,12 @@ This prop will control the size of each dot that will be displayed for the anima
 ```
 
 This prop will control the border radius of the dots in case you want a specific amount of border radius. If you don't fill this prop it will use a rounded border radius with the formula: `size / 2`.
+
+### bounceHeight
+
+```js
+@type {Number}
+default 20
+```
+
+This prop will control the height of the bouncing for the loading dots. The higher the value the higher the will bounce up and down. From `0` to `bounceHeight` and from `0` to `-bounceHeight`.
