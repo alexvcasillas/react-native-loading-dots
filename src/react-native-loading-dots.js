@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, Animated, Easing } from "react-native";
 
-const defaultColors = [
-  "#4dabf7",
-  "#3bc9db",
-  "#38d9a9",
-  "#69db7c"
-];
+const defaultColors = ["#4dabf7", "#3bc9db", "#38d9a9", "#69db7c"];
 
-function LoadingDots({ dots = 4, colors = defaultColors, size = 20, bounceHeight = 20, borderRadius }) {
+function LoadingDots({
+  dots = 4,
+  colors = defaultColors,
+  size = 20,
+  bounceHeight = 20,
+  borderRadius,
+  components = null,
+}) {
   const [animations, setAnimations] = useState([]);
   const [reverse, setReverse] = useState(false);
 
@@ -16,8 +18,9 @@ function LoadingDots({ dots = 4, colors = defaultColors, size = 20, bounceHeight
 
   useEffect(() => {
     const dotAnimations = [];
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < dots; i++) {
+    let animationsAmount =
+      !!components && Array.isArray(components) ? components.length : dots;
+    for (let i = 0; i < animationsAmount; i++) {
       dotAnimations.push(new Animated.Value(0));
     }
     setAnimations(dotAnimations);
@@ -33,7 +36,7 @@ function LoadingDots({ dots = 4, colors = defaultColors, size = 20, bounceHeight
     Animated.timing(opacity, {
       toValue: 1,
       easing: Easing.ease,
-      useNativeDriver: true
+      useNativeDriver: true,
     }).start();
   }
 
@@ -43,19 +46,19 @@ function LoadingDots({ dots = 4, colors = defaultColors, size = 20, bounceHeight
         toValue: reverseY ? bounceHeight : -bounceHeight,
         easing: Easing.bezier(0.41, -0.15, 0.56, 1.21),
         delay,
-        useNativeDriver: true
+        useNativeDriver: true,
       }),
       Animated.timing(node, {
         toValue: reverseY ? -bounceHeight : bounceHeight,
         easing: Easing.bezier(0.41, -0.15, 0.56, 1.21),
         delay,
-        useNativeDriver: true
+        useNativeDriver: true,
       }),
       Animated.timing(node, {
         toValue: 0,
         delay,
-        useNativeDriver: true
-      })
+        useNativeDriver: true,
+      }),
     ]);
     return floatSequence;
   }
@@ -75,17 +78,29 @@ function LoadingDots({ dots = 4, colors = defaultColors, size = 20, bounceHeight
 
   return (
     <Animated.View style={[styles.loading, { opacity }]}>
-      {animations.map((animation, index) => (
-        <Animated.View
-          // eslint-disable-next-line react/no-array-index-key
-          key={`loading-anim-${index}`}
-          style={[
-            { width: size, height: size, borderRadius: borderRadius || size / 2 },
-            { backgroundColor: colors[index] || "#4dabf7" },
-            { transform: [{ translateY: animation }] }
-          ]}
-        />
-      ))}
+      {animations.map((animation, index) =>
+        components ? (
+          <Animated.View
+            key={`loading-anim-${index}`}
+            style={[{ transform: [{ translateY: animation }] }]}
+          >
+            {components[index]}
+          </Animated.View>
+        ) : (
+          <Animated.View
+            key={`loading-anim-${index}`}
+            style={[
+              {
+                width: size,
+                height: size,
+                borderRadius: borderRadius || size / 2,
+              },
+              { backgroundColor: colors[index] || "#4dabf7" },
+              { transform: [{ translateY: animation }] },
+            ]}
+          />
+        )
+      )}
     </Animated.View>
   );
 }
@@ -95,8 +110,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between"
-  }
+    justifyContent: "space-between",
+  },
 });
 
 export default LoadingDots;

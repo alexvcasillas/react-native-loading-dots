@@ -28,20 +28,20 @@ function LoadingScreen() {
         <LoadingDots />
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-  loadingScreen: {
+  loadingScreen: {
     flex: 1,
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   dotsWrapper: {
-    width: 100
-  }
-})
+    width: 100,
+  },
+});
 ```
 
 The above code will produce the same outcome as the demo screen capture.
@@ -77,7 +77,6 @@ default 20
 
 This prop will control the size of each dot that will be displayed for the animation.
 
-
 ### borderRadius
 
 ```
@@ -94,3 +93,12 @@ default 20
 ```
 
 This prop will control the height of the bouncing for the loading dots. The higher the value the higher the will bounce up and down. From `0` to `bounceHeight` and from `0` to `-bounceHeight`.
+
+### components
+
+```js
+@type {React.ReactNode}
+default null
+```
+
+This prop will allow you to pass an array of the elements that you'd like to be rendered instead of the colored dots. If you pass `components` the `dots`, `colors`, `size` and `borderRadius` props will be ignored.
