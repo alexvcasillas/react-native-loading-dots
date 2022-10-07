@@ -53,7 +53,7 @@ You can pass a few props to configure the outcome a little:
 ### dots
 
 ```js
-@type {Number}
+@type Number
 default 4
 ```
 
@@ -62,7 +62,7 @@ This prop will change the number of dots that will be displayed in the animation
 ### colors
 
 ```js
-@type {String[]}
+@type String[]
 default ["#4dabf7", "#3bc9db", "#38d9a9", "#69db7c"]
 ```
 
@@ -71,16 +71,16 @@ This prop will change the color of the dots in the given array order. If you dec
 ### size
 
 ```js
-@type {Number}
+@type Number
 default 20
 ```
 
 This prop will control the size of each dot that will be displayed for the animation.
 
-### borderRadius
+### borderRadius
 
 ```
-@type {Number}
+@type Number
 ```
 
 This prop will control the border radius of the dots in case you want a specific amount of border radius. If you don't fill this prop it will use a rounded border radius with the formula: `size / 2`.
@@ -88,7 +88,7 @@ This prop will control the border radius of the dots in case you want a specific
 ### bounceHeight
 
 ```js
-@type {Number}
+@type Number
 default 20
 ```
 
@@ -97,7 +97,7 @@ This prop will control the height of the bouncing for the loading dots. The high
 ### components
 
 ```js
-@type {React.ReactNode}
+@type React.ReactNode[]
 default null
 ```
 
