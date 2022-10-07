@@ -1,14 +1,13 @@
 {
   "name": "react-native-loading-dots",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "A React Native loading component with dots or custom components and smooth animation",
   "repository": "https://github.com/alexvcasillas/react-native-loading-dots",
   "author": "Alex Casillas",
   "license": "MIT",
   "main": "src/react-native-loading-dots.js",
-  "dependencies": {},
   "peerDependencies": {
-    "react": "^18.2.0",
+    "react": "^18.0.0",
     "react-native": "^0.69.6"
   }
 }
