@@ -3,6 +3,17 @@ import { StyleSheet, Animated, Easing } from "react-native";
 
 const defaultColors = ["#4dabf7", "#3bc9db", "#38d9a9", "#69db7c"];
 
+/**
+ * React Component that creates a smooth loading animation with dots
+ * or custom components
+ * @param {number} dots
+ * @param {string[]} colors
+ * @param {number} size
+ * @param {number} bounceHeight
+ * @param {number} borderRadius
+ * @param {React.ReactNode[]} components
+ * @returns React.JSX.Element
+ */
 function LoadingDots({
   dots = 4,
   colors = defaultColors,
