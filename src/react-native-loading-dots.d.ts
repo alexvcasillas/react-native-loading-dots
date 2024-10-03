@@ -9,6 +9,7 @@ export interface LoadingDotsProps {
   bounceHeight?: number;
   /** Border radius of the dots */
   borderRadius?: number;
+  gap?: number;
   /** Custom components to use instead of default dots */
   components?: React.ReactNode[];
 }
