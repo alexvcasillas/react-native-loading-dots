@@ -11,6 +11,7 @@ const defaultColors = ["#4dabf7", "#3bc9db", "#38d9a9", "#69db7c"];
  * @param {number} size
  * @param {number} bounceHeight
  * @param {number} borderRadius
+ * @param {number} gap
  * @param {React.ReactNode[]} components
  * @returns React.JSX.Element
  */
@@ -21,6 +22,7 @@ function LoadingDots({
   bounceHeight = 20,
   borderRadius,
   components = null,
+  gap = 0,
 }) {
   const [animations, setAnimations] = useState([]);
   const [reverse, setReverse] = useState(false);
@@ -88,7 +90,7 @@ function LoadingDots({
   }, [reverse, animations]);
 
   return (
-    <Animated.View style={[styles.loading, { opacity }]}>
+    <Animated.View style={[styles.loading, { opacity, gap }]}>
       {animations.map((animation, index) =>
         components ? (
           <Animated.View
