@@ -77,6 +77,15 @@ default 20
 
 This prop will control the size of each dot that will be displayed for the animation.
 
+### gap
+
+```
+@type Number  
+default 8
+```
+
+This prop controls the horizontal space (in pixels) between each dot.
+
 ### borderRadius
 
 ```
