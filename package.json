@@ -1,6 +1,6 @@
 {
   "name": "react-native-loading-dots",
-  "version": "1.4.1-beta.2",
+  "version": "1.4.1",
   "description": "A React Native loading component with dots or custom components and smooth animation",
   "keywords": [
     "react-native",
