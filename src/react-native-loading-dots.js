@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import { StyleSheet, Animated, Easing } from "react-native";
 
 const defaultColors = ["#4dabf7", "#3bc9db", "#38d9a9", "#69db7c"];
@@ -35,31 +41,49 @@ function LoadingDots({
   // Prop validation for better developer experience
   if (__DEV__) {
     if (dots < 1) {
-      console.warn('LoadingDots: dots should be >= 1, received:', dots);
+      console.warn("LoadingDots: dots should be >= 1, received:", dots);
     }
     if (size < 0) {
-      console.warn('LoadingDots: size should be >= 0, received:', size);
+      console.warn("LoadingDots: size should be >= 0, received:", size);
     }
     if (bounceHeight < 0) {
-      console.warn('LoadingDots: bounceHeight should be >= 0, received:', bounceHeight);
+      console.warn(
+        "LoadingDots: bounceHeight should be >= 0, received:",
+        bounceHeight
+      );
     }
     if (gap < 0) {
-      console.warn('LoadingDots: gap should be >= 0, received:', gap);
+      console.warn("LoadingDots: gap should be >= 0, received:", gap);
     }
     if (borderRadius !== undefined && borderRadius < 0) {
-      console.warn('LoadingDots: borderRadius should be >= 0, received:', borderRadius);
+      console.warn(
+        "LoadingDots: borderRadius should be >= 0, received:",
+        borderRadius
+      );
     }
     if (colors && !Array.isArray(colors)) {
-      console.warn('LoadingDots: colors should be an array, received:', typeof colors);
+      console.warn(
+        "LoadingDots: colors should be an array, received:",
+        typeof colors
+      );
     }
     if (components && !Array.isArray(components)) {
-      console.warn('LoadingDots: components should be an array, received:', typeof components);
+      console.warn(
+        "LoadingDots: components should be an array, received:",
+        typeof components
+      );
     }
-            if (!['timing', 'spring'].includes(animationType)) {
-          console.warn('LoadingDots: animationType should be "timing" or "spring", received:', animationType);
-        }
-    if (animationOptions && typeof animationOptions !== 'object') {
-      console.warn('LoadingDots: animationOptions should be an object, received:', typeof animationOptions);
+    if (!["timing", "spring"].includes(animationType)) {
+      console.warn(
+        'LoadingDots: animationType should be "timing" or "spring", received:',
+        animationType
+      );
+    }
+    if (animationOptions && typeof animationOptions !== "object") {
+      console.warn(
+        "LoadingDots: animationOptions should be an object, received:",
+        typeof animationOptions
+      );
     }
   }
 
@@ -82,19 +106,19 @@ function LoadingDots({
 
     // Cleanup function to prevent memory leaks
     return () => {
-      dotAnimations.forEach(animation => {
+      dotAnimations.forEach((animation) => {
         animation.stopAnimation();
       });
       opacity.stopAnimation();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [animationsAmount]);
 
   useEffect(() => {
     if (animations.length === 0) return;
     loadingAnimation(animations, reverse);
     appearAnimation();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [animations]);
 
   const appearAnimation = useCallback(() => {
@@ -105,64 +129,76 @@ function LoadingDots({
     }).start();
   }, [opacity]);
 
-        // Create animation function based on type
-      const createAnimation = useCallback((value, toValue, delay = 0) => {
-        const baseOptions = {
-          delay,
-          useNativeDriver: true,
-          ...animationOptions,
-        };
+  // Create animation function based on type
+  const createAnimation = useCallback(
+    (value, toValue, delay = 0) => {
+      const baseOptions = {
+        delay,
+        useNativeDriver: true,
+        ...animationOptions,
+      };
 
-        switch (animationType) {
-          case 'spring':
-            return Animated.spring(value, {
-              toValue,
-              tension: 100,
-              friction: 8,
-              ...baseOptions,
-            });
-          case 'timing':
-          default:
-            return Animated.timing(value, {
-              toValue,
-              easing: Easing.bezier(0.41, -0.15, 0.56, 1.21),
-              ...baseOptions,
-            });
-        }
-      }, [animationType, animationOptions]);
+      switch (animationType) {
+        case "spring":
+          return Animated.spring(value, {
+            toValue,
+            tension: 100,
+            friction: 8,
+            ...baseOptions,
+          });
+        case "timing":
+        default:
+          return Animated.timing(value, {
+            toValue,
+            easing: Easing.bezier(0.41, -0.15, 0.56, 1.21),
+            ...baseOptions,
+          });
+      }
+    },
+    [animationType, animationOptions]
+  );
 
-  const floatAnimation = useCallback((node, reverseY, delay) => {
-    const floatSequence = Animated.sequence([
-      createAnimation(node, reverseY ? bounceHeight : -bounceHeight, delay),
-      createAnimation(node, reverseY ? -bounceHeight : bounceHeight, delay),
-      createAnimation(node, 0, delay),
-    ]);
-    return floatSequence;
-  }, [bounceHeight, createAnimation]);
+  const floatAnimation = useCallback(
+    (node, reverseY, delay) => {
+      const floatSequence = Animated.sequence([
+        createAnimation(node, reverseY ? bounceHeight : -bounceHeight, delay),
+        createAnimation(node, reverseY ? -bounceHeight : bounceHeight, delay),
+        createAnimation(node, 0, delay),
+      ]);
+      return floatSequence;
+    },
+    [bounceHeight, createAnimation]
+  );
 
-  const loadingAnimation = useCallback((nodes, reverseY) => {
-    Animated.parallel(
-      nodes.map((node, index) => floatAnimation(node, reverseY, index * 100))
-    ).start(() => {
-      setReverse(!reverse);
-    });
-  }, [floatAnimation, reverse]);
+  const loadingAnimation = useCallback(
+    (nodes, reverseY) => {
+      Animated.parallel(
+        nodes.map((node, index) => floatAnimation(node, reverseY, index * 100))
+      ).start(() => {
+        setReverse(!reverse);
+      });
+    },
+    [floatAnimation, reverse]
+  );
 
   useEffect(() => {
     if (animations.length === 0) return;
     loadingAnimation(animations, reverse);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reverse, animations]);
 
   // Memoize the dot styles to prevent unnecessary recalculations
-  const dotStyles = useMemo(() => ({
-    width: size,
-    height: size,
-    borderRadius: borderRadius || size * 0.5,
-  }), [size, borderRadius]);
+  const dotStyles = useMemo(
+    () => ({
+      width: size,
+      height: size,
+      borderRadius: borderRadius || size * 0.5,
+    }),
+    [size, borderRadius]
+  );
 
   return (
-    <Animated.View 
+    <Animated.View
       style={[styles.loading, { opacity, gap }]}
       accessibilityLabel={accessibilityLabel}
       accessibilityHint={accessibilityHint}

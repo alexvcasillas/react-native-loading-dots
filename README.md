@@ -126,7 +126,7 @@ This prop controls the horizontal space (in pixels) between each dot.
 @type Number
 ```
 
-This prop will control the border radius of the dots in case you want a specific amount of border radius. If you don't fill this prop it will use a rounded border radius with the formula: `size / 2`.
+This prop will control the border radius of the dots in case you want a specific amount of border radius. If you don't fill this prop it will use a rounded border radius with the formula: `size * 0.5`.
 
 ### bounceHeight
 

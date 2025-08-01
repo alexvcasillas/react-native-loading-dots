@@ -35,4 +35,4 @@ export interface LoadingDotsProps {
 
 declare const LoadingDots: (props: LoadingDotsProps) => JSX.Element;
 
-export default LoadingDots; 
+export default LoadingDots;

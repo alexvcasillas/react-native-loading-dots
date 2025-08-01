@@ -18,7 +18,7 @@ export default function HomeScreen() {
       }>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Loading Dots</ThemedText>
-        <ThemedText type="subtitle">v1.4.1-beta.1</ThemedText>
+        <ThemedText type="subtitle">v1.4.1</ThemedText>
       </ThemedView>
       <View style={{flex: 1, width: '100%', flexDirection: 'column', gap: 24 }}>
       <ThemedView style={styles.stepContainer}>
