@@ -2,7 +2,7 @@
 
 High-performance, accessible loading component with smooth dot animations for your React Native project.
 
-![Showcase of React Native Loading Dots](https://github.com/alexvcasillas/react-native-loading-dots/blob/master/ios-demo.gif?raw=true)
+![Showcase of React Native Loading Dots](https://github.com/alexvcasillas/react-native-loading-dots/blob/main/ios-demo.gif?raw=true)
 
 ## Installation
 
