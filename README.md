@@ -1,6 +1,6 @@
 ## React Native Loading Dots
 
-Smooth dot loading component for your React Native project.
+High-performance, accessible loading component with smooth dot animations for your React Native project.
 
 ![Showcase of React Native Loading Dots](https://github.com/alexvcasillas/react-native-loading-dots/blob/master/ios-demo.gif?raw=true)
 
@@ -46,45 +46,38 @@ const styles = StyleSheet.create({
 
 The above code will produce the same outcome as the demo screen capture.
 
-### Advanced Usage with Animation Controls
+### Animation Examples
 
 ```js
-import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
-import LoadingDots from "react-native-loading-dots";
+// Spring animation with custom tension
+<LoadingDots
+  animationType="spring"
+  animationOptions={{ tension: 200, friction: 5 }}
+/>
 
-function AdvancedLoadingScreen() {
-  const [paused, setPaused] = useState(false);
-  const [cycleCount, setCycleCount] = useState(0);
+// Bouncy spring animation
+<LoadingDots
+  animationType="spring"
+  animationOptions={{ tension: 100, friction: 3 }}
+/>
 
-  const handleComplete = () => {
-    setCycleCount((prev) => prev + 1);
-  };
+// Timing animation with bounce easing
+<LoadingDots
+  animationType="timing"
+  animationOptions={{
+    duration: 800,
+    easing: Easing.bounce
+  }}
+/>
 
-  return (
-    <View style={styles.loadingScreen}>
-      <View style={styles.dotsWrapper}>
-        <LoadingDots
-          dots={3}
-          colors={["#ff6b6b", "#4ecdc4", "#45b7d1"]}
-          size={25}
-          bounceHeight={30}
-          paused={paused}
-          onComplete={handleComplete}
-          duration={800}
-          accessibilityLabel="Custom loading animation"
-        />
-      </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => setPaused(!paused)}
-      >
-        <Text>{paused ? "Resume" : "Pause"} Animation</Text>
-      </TouchableOpacity>
-      <Text>Animation cycles completed: {cycleCount}</Text>
-    </View>
-  );
-}
+// Custom colors and size with spring animation
+<LoadingDots
+  dots={3}
+  colors={['#ff6b6b', '#4ecdc4', '#45b7d1']}
+  size={25}
+  animationType="spring"
+  animationOptions={{ tension: 150, friction: 7 }}
+/>
 ```
 
 ## Customization
@@ -120,7 +113,7 @@ This prop will control the size of each dot that will be displayed for the anima
 
 ### gap
 
-```
+```js
 @type Number
 default 0
 ```
@@ -129,7 +122,7 @@ This prop controls the horizontal space (in pixels) between each dot.
 
 ### borderRadius
 
-```
+```js
 @type Number
 ```
 
@@ -171,29 +164,48 @@ default "Content is loading, please wait"
 
 This prop provides additional context for screen readers about what the loading animation represents.
 
-### paused
+### animationType
 
 ```js
-@type Boolean
-default false
+@type String
+default "timing"
 ```
 
-This prop allows you to pause and resume the loading animation. When set to `true`, the animation will stop, and when set to `false`, it will resume.
+This prop allows you to choose the animation type. Available options:
 
-### onComplete
+- `"timing"` - Smooth timing-based animation (default)
+- `"spring"` - Bouncy spring animation
+
+### animationOptions
 
 ```js
-@type Function
-default null
+@type Object
+default {}
 ```
 
-This prop accepts a callback function that will be called at the end of each animation cycle. Useful for tracking animation progress or implementing custom behaviors.
+This prop allows you to customize the animation behavior. Options vary by animation type:
 
-### duration
+**For Spring Animation:**
 
 ```js
-@type Number
-default 600
+animationOptions={{
+  tension: 100,    // Spring tension (default: 100)
+  friction: 8,     // Spring friction (default: 8)
+}}
 ```
 
-This prop controls the duration of each animation phase in milliseconds. The total animation cycle duration will be approximately `duration * 3` (up, down, return to center).
+**For Timing Animation:**
+
+```js
+animationOptions={{
+  duration: 600,   // Animation duration in ms
+  easing: Easing.bounce, // Easing function
+}}
+```
+
+## Performance Features
+
+- **Optimized re-renders** - Uses React.memo to prevent unnecessary updates
+- **Memoized calculations** - Expensive operations are cached for better performance
+- **Memory leak prevention** - Proper cleanup of animation values on unmount
+- **Efficient animations** - Uses useCallback for stable animation functions
