@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 export interface LoadingDotsProps {
   /** Number of dots to display */
   dots?: number;
@@ -13,6 +15,16 @@ export interface LoadingDotsProps {
   gap?: number;
   /** Custom components to use instead of default dots */
   components?: React.ReactNode[];
+  /** Accessibility label for screen readers */
+  accessibilityLabel?: string;
+  /** Accessibility hint for screen readers */
+  accessibilityHint?: string;
+  /** Whether the animation is paused */
+  paused?: boolean;
+  /** Callback function called at the end of each animation cycle */
+  onComplete?: () => void;
+  /** Duration of each animation phase in milliseconds */
+  duration?: number;
 }
 
 declare const LoadingDots: (props: LoadingDotsProps) => JSX.Element;

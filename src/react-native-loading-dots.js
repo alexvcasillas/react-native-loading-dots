@@ -13,6 +13,11 @@ const defaultColors = ["#4dabf7", "#3bc9db", "#38d9a9", "#69db7c"];
  * @param {number} borderRadius
  * @param {number} gap
  * @param {React.ReactNode[]} components
+ * @param {string} accessibilityLabel
+ * @param {string} accessibilityHint
+ * @param {boolean} paused
+ * @param {function} onComplete
+ * @param {number} duration
  * @returns React.JSX.Element
  */
 function LoadingDots({
@@ -23,11 +28,52 @@ function LoadingDots({
   borderRadius,
   components = null,
   gap = 0,
+  accessibilityLabel = "Loading",
+  accessibilityHint = "Content is loading, please wait",
+  paused = false,
+  onComplete = null,
+  duration = 600,
 }) {
+  // Prop validation for better developer experience
+  if (__DEV__) {
+    if (dots < 1) {
+      console.warn('LoadingDots: dots should be >= 1, received:', dots);
+    }
+    if (size < 0) {
+      console.warn('LoadingDots: size should be >= 0, received:', size);
+    }
+    if (bounceHeight < 0) {
+      console.warn('LoadingDots: bounceHeight should be >= 0, received:', bounceHeight);
+    }
+    if (gap < 0) {
+      console.warn('LoadingDots: gap should be >= 0, received:', gap);
+    }
+    if (borderRadius !== undefined && borderRadius < 0) {
+      console.warn('LoadingDots: borderRadius should be >= 0, received:', borderRadius);
+    }
+    if (colors && !Array.isArray(colors)) {
+      console.warn('LoadingDots: colors should be an array, received:', typeof colors);
+    }
+    if (components && !Array.isArray(components)) {
+      console.warn('LoadingDots: components should be an array, received:', typeof components);
+    }
+    if (typeof paused !== 'boolean') {
+      console.warn('LoadingDots: paused should be a boolean, received:', typeof paused);
+    }
+    if (onComplete && typeof onComplete !== 'function') {
+      console.warn('LoadingDots: onComplete should be a function, received:', typeof onComplete);
+    }
+    if (duration < 0) {
+      console.warn('LoadingDots: duration should be >= 0, received:', duration);
+    }
+  }
+
   const [animations, setAnimations] = useState([]);
   const [reverse, setReverse] = useState(false);
+  const [isRunning, setIsRunning] = useState(!paused);
 
   const opacity = useRef(new Animated.Value(0)).current;
+  const animationRef = useRef(null);
 
   useEffect(() => {
     const dotAnimations = [];
@@ -37,13 +83,33 @@ function LoadingDots({
       dotAnimations.push(new Animated.Value(0));
     }
     setAnimations(dotAnimations);
+
+    // Cleanup function to stop animations on unmount
+    return () => {
+      dotAnimations.forEach(animation => {
+        animation.stopAnimation();
+      });
+      opacity.stopAnimation();
+    };
   }, []);
+
+  // Handle pause/resume
+  useEffect(() => {
+    setIsRunning(!paused);
+  }, [paused]);
 
   useEffect(() => {
     if (animations.length === 0) return;
-    loadingAnimation(animations, reverse);
+    if (isRunning) {
+      loadingAnimation(animations, reverse);
+    } else {
+      // Stop current animation when paused
+      if (animationRef.current) {
+        animationRef.current.stop();
+      }
+    }
     appearAnimation();
-  }, [animations]);
+  }, [animations, isRunning]);
 
   function appearAnimation() {
     Animated.timing(opacity, {
@@ -59,17 +125,20 @@ function LoadingDots({
         toValue: reverseY ? bounceHeight : -bounceHeight,
         easing: Easing.bezier(0.41, -0.15, 0.56, 1.21),
         delay,
+        duration: duration / 3,
         useNativeDriver: true,
       }),
       Animated.timing(node, {
         toValue: reverseY ? -bounceHeight : bounceHeight,
         easing: Easing.bezier(0.41, -0.15, 0.56, 1.21),
         delay,
+        duration: duration / 3,
         useNativeDriver: true,
       }),
       Animated.timing(node, {
         toValue: 0,
         delay,
+        duration: duration / 3,
         useNativeDriver: true,
       }),
     ]);
@@ -77,20 +146,40 @@ function LoadingDots({
   }
 
   function loadingAnimation(nodes, reverseY) {
-    Animated.parallel(
+    if (!isRunning) return;
+    
+    const animationSequence = Animated.parallel(
       nodes.map((node, index) => floatAnimation(node, reverseY, index * 100))
-    ).start(() => {
-      setReverse(!reverse);
+    );
+    
+    animationRef.current = animationSequence;
+    
+    animationSequence.start((finished) => {
+      if (finished && isRunning) {
+        // Call onComplete callback at the end of each cycle
+        if (onComplete && typeof onComplete === 'function') {
+          onComplete();
+        }
+        setReverse(!reverse);
+      }
     });
   }
 
   useEffect(() => {
     if (animations.length === 0) return;
-    loadingAnimation(animations, reverse);
-  }, [reverse, animations]);
+    if (isRunning) {
+      loadingAnimation(animations, reverse);
+    }
+  }, [reverse, animations, isRunning]);
 
   return (
-    <Animated.View style={[styles.loading, { opacity, gap }]}>
+    <Animated.View 
+      style={[styles.loading, { opacity, gap }]}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityHint={accessibilityHint}
+      accessibilityRole="progressbar"
+      accessible={true}
+    >
       {animations.map((animation, index) =>
         components ? (
           <Animated.View
