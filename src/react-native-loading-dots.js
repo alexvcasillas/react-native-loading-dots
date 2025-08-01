@@ -192,7 +192,7 @@ function LoadingDots({
     () => ({
       width: size,
       height: size,
-      borderRadius: borderRadius || size * 0.5,
+      borderRadius: borderRadius ?? size * 0.5,
     }),
     [size, borderRadius]
   );
